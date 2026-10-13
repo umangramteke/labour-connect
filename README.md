@@ -348,13 +348,19 @@ All test cases were verified using automated PowerShell scripts and live HTTP su
 
 ---
 
-## 14. Cloud Deployment Guide (Render — Recommended)
+## 14. Cloud Deployment Guide
 
-This project has been pre-configured with a root `package.json`, `render.yaml`, and unified single-port static client serving in `server/server.js`, making cloud deployment on **Render** (or Vercel) straightforward and zero-config.
+This project is pre-configured with a root `package.json`, `netlify.toml`, Netlify Functions, and `render.yaml`, supporting both **Netlify** and **Render** with zero extra setup.
 
-### Step 1: Push Project to GitHub
+---
 
-1. Open your browser and go to [GitHub New Repository](https://github.com/new).
+### Option A: Deploy on Netlify (Recommended)
+
+Netlify serves the React frontend through its high-speed global CDN, while the ExpressJS backend runs seamlessly as a serverless function via `netlify/functions/api.js` using `serverless-http`.
+
+#### Step 1: Push Project to GitHub
+
+1. Open your browser and go to **[GitHub New Repository](https://github.com/new)**.
 2. Name the repository `labour-connect` (choose **Public** or **Private**) and click **Create repository**.
 3. In your terminal, run the following commands:
    ```powershell
@@ -365,25 +371,36 @@ This project has been pre-configured with a root `package.json`, `render.yaml`, 
    ```
    *(Replace with your actual GitHub username and repository URL if different).*
 
-### Step 2: Deploy on Render (Free Web Service)
+#### Step 2: Connect and Deploy on Netlify
 
-1. Sign up or log in at **[render.com](https://render.com/)** (sign in with your GitHub account).
-2. On your Render Dashboard, click the **New +** button in the top navigation bar and select **Web Service**.
-3. Under **Connect a repository**, find and select your `labour-connect` repository.
-4. Render will automatically read the pre-configured settings:
-   - **Name:** `labour-connect`
-   - **Language / Runtime:** `Node`
-   - **Branch:** `main`
-   - **Region:** Any (e.g., Singapore or Frankfurt)
+1. Sign up or log in at **[app.netlify.com](https://app.netlify.com/)** (choose **Sign up with GitHub**).
+2. On your Netlify Team overview, click **Add new site** > **Import an existing project**.
+3. Select **GitHub** and authorize Netlify.
+4. Search for and select your **`labour-connect`** repository.
+5. Netlify will automatically detect the settings from `netlify.toml`:
+   - **Base directory:** *(Leave blank / root)*
+   - **Build command:** `npm run build`
+   - **Publish directory:** `client/dist`
+   - **Functions directory:** `netlify/functions`
+6. Click **Deploy labour-connect**.
+
+#### Step 3: Access Live Netlify URL
+
+- Netlify will build the client and package the Express serverless function within 30–45 seconds.
+- You will receive a permanent public HTTPS URL, for example:
+  > **`https://labour-connect.netlify.app`**
+- All frontend navigation works automatically, and all `/api/*` endpoints are rewritten to the live Express function with active server-side validation.
+
+---
+
+### Option B: Deploy on Render (Alternative Web Service)
+
+1. Sign in at **[render.com](https://render.com/)** with your GitHub account.
+2. Click **New +** > **Web Service**.
+3. Connect your `labour-connect` repository.
+4. Render detects `render.yaml` and auto-fills:
    - **Build Command:** `npm run install-all && npm run build`
    - **Start Command:** `npm start`
-   - **Instance Type:** `Free`
-5. Click **Deploy Web Service** at the bottom of the page.
+5. Click **Deploy Web Service** to receive your `https://labour-connect.onrender.com` URL.
 
-### Step 3: Access Live Application
-
-- Render will automatically install both server and client dependencies, build the React production bundle, and launch the Express backend.
-- Once the build succeeds, Render provides a permanent public HTTPS URL:
-  `https://labour-connect.onrender.com`
-- Visiting this URL opens the full React application, and all `/api/*` requests are validated and handled on the live Node.js Express server.
 

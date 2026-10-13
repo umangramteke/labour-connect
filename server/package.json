@@ -6,11 +6,16 @@
   "scripts": {
     "start": "node server.js"
   },
-  "keywords": ["express", "validation", "labour-connect"],
+  "keywords": [
+    "express",
+    "validation",
+    "labour-connect"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^4.19.2"
+    "express": "^4.19.2",
+    "serverless-http": "^4.0.0"
   }
 }
