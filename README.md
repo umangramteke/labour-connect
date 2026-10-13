@@ -345,3 +345,45 @@ All test cases were verified using automated PowerShell scripts and live HTTP su
 3. **Clean Decoupling:** The React frontend acts solely as an interactive presentation client. It reads the server's status code and error message directly from the response body and renders appropriate Bootstrap alert badges without synthesizing fake responses.
 4. **Preservation of State:** When validation fails, entered values are preserved in the form state, giving users immediate clarity on what needs correction.
 5. **Interactive Viva Test Bench:** College examiners can directly test edge cases with one click from the "Live Server Records" tab to verify that the Express server actively guards the application.
+
+---
+
+## 14. Cloud Deployment Guide (Render — Recommended)
+
+This project has been pre-configured with a root `package.json`, `render.yaml`, and unified single-port static client serving in `server/server.js`, making cloud deployment on **Render** (or Vercel) straightforward and zero-config.
+
+### Step 1: Push Project to GitHub
+
+1. Open your browser and go to [GitHub New Repository](https://github.com/new).
+2. Name the repository `labour-connect` (choose **Public** or **Private**) and click **Create repository**.
+3. In your terminal, run the following commands:
+   ```powershell
+   cd "c:\Users\ramte\OneDrive\Desktop\wt assignment\assignmnet 5"
+   git branch -M main
+   git remote add origin https://github.com/umangramteke/labour-connect.git
+   git push -u origin main
+   ```
+   *(Replace with your actual GitHub username and repository URL if different).*
+
+### Step 2: Deploy on Render (Free Web Service)
+
+1. Sign up or log in at **[render.com](https://render.com/)** (sign in with your GitHub account).
+2. On your Render Dashboard, click the **New +** button in the top navigation bar and select **Web Service**.
+3. Under **Connect a repository**, find and select your `labour-connect` repository.
+4. Render will automatically read the pre-configured settings:
+   - **Name:** `labour-connect`
+   - **Language / Runtime:** `Node`
+   - **Branch:** `main`
+   - **Region:** Any (e.g., Singapore or Frankfurt)
+   - **Build Command:** `npm run install-all && npm run build`
+   - **Start Command:** `npm start`
+   - **Instance Type:** `Free`
+5. Click **Deploy Web Service** at the bottom of the page.
+
+### Step 3: Access Live Application
+
+- Render will automatically install both server and client dependencies, build the React production bundle, and launch the Express backend.
+- Once the build succeeds, Render provides a permanent public HTTPS URL:
+  `https://labour-connect.onrender.com`
+- Visiting this URL opens the full React application, and all `/api/*` requests are validated and handled on the live Node.js Express server.
+
