@@ -125,11 +125,12 @@ function App() {
                 <div className="brand-badge" style={{ width: '32px', height: '32px' }}>
                   <i className="bi bi-hammer fs-6"></i>
                 </div>
-                <h5 className="text-white mb-0 fw-bold">Labour Connect</h5>
+                <h5 className="text-white mb-0 fw-bold">Labour Connect Express JS</h5>
               </div>
               <p className="text-muted small pe-md-4">
-                Web Technology Practical Project demonstrating ExpressJS Server-Side Validation, HTTP status codes, REST endpoints, and decoupled React UI.
+                Web Technology Practical Project demonstrating ExpressJS Server-Side Validation, HTTP status codes, REST endpoints, and decoupled React UI deployed on Netlify.
               </p>
+
             </div>
 
             <div className="col-6 col-md-3">
@@ -172,7 +173,8 @@ function App() {
 
           <div className="border-top border-secondary border-opacity-25 mt-4 pt-3 d-flex flex-column flex-sm-row justify-content-between align-items-center text-muted small">
             <div>
-              &copy; {new Date().getFullYear()} Labour Connect — Web Technology Assignment 5.
+              &copy; {new Date().getFullYear()} Labour Connect Express JS — Web Technology Assignment 5.
+
             </div>
             <div className="mt-2 mt-sm-0">
               <button 

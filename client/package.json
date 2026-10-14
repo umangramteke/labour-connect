@@ -1,6 +1,7 @@
 {
-  "name": "client",
+  "name": "labour-connect-express-js-client",
   "private": true,
+
   "version": "0.0.0",
   "type": "module",
   "scripts": {

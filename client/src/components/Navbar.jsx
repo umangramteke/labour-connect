@@ -22,11 +22,12 @@ function Navbar({ activeTab, setActiveTab, apiOnline }) {
             <i className="bi bi-hammer fs-5"></i>
           </div>
           <div className="d-flex flex-column text-start">
-            <span className="brand-text lh-1">Labour Connect</span>
+            <span className="brand-text lh-1">Labour Connect Express JS</span>
             <small className="text-muted" style={{ fontSize: '0.7rem', letterSpacing: '0.05em' }}>
               EMPLOYMENT & SERVICE PLATFORM
             </small>
           </div>
+
         </button>
 
         {/* Mobile Toggle Button */}

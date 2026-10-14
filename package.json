@@ -1,29 +1,15 @@
 {
-  "name": "labour-connect",
+  "name": "labour-connect-express-js",
   "version": "1.0.0",
-  "description": "Labour Connect - Fullstack Web Application demonstrating ExpressJS Server-Side Validation",
-  "main": "server/server.js",
+  "description": "Labour Connect Express JS - Skilled Worker & Service Platform demonstrating Server-Side Validation using ExpressJS",
   "scripts": {
-    "install-all": "npm install --prefix server && npm install --prefix client",
-    "build": "npm run build --prefix client",
-    "start": "node server/server.js",
-    "dev:server": "npm start --prefix server",
-    "dev:client": "npm run dev --prefix client"
+    "install:all": "npm install && cd server && npm install && cd ../client && npm install",
+    "build": "cd client && npm install && npm run build && cd ../server && npm install",
+    "start": "node server/server.js"
   },
-  "engines": {
-    "node": ">=18.0.0"
-  },
-  "keywords": [
-    "express",
-    "react",
-    "server-side-validation",
-    "web-technology"
-  ],
-  "author": "Umang Ramteke",
-  "license": "ISC",
   "dependencies": {
-    "cors": "^2.8.6",
-    "express": "^5.3.0",
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
     "serverless-http": "^4.0.0"
   }
 }

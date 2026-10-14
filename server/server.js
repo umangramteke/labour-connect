@@ -1,5 +1,5 @@
 // ==============================================================================
-// Labour Connect - ExpressJS Server with Server-Side Validation
+// Labour Connect Express JS - ExpressJS Server with Server-Side Validation
 // Assignment: Design, develop and deploy a web application to demonstrate server-side validation using ExpressJS.
 // ==============================================================================
 
@@ -185,35 +185,27 @@ let jobApplications = [];
 let serviceRequests = [];
 
 // ------------------------------------------------------------------------------
-// 1. GET / and GET /api - Root route to confirm API status / serve Web UI
+// Express Router for Endpoints
+// Using an Express Router allows identical routing locally and in Netlify Functions
 // ------------------------------------------------------------------------------
-app.get('/api', (req, res) => {
+const router = express.Router();
+
+// ------------------------------------------------------------------------------
+// 1. GET / - Root route to confirm API status
+// ------------------------------------------------------------------------------
+router.get('/', (req, res) => {
   res.status(200).json({
-    message: "Labour Connect API is running successfully!",
+    message: "Labour Connect Express JS API is running successfully!",
     status: "active",
+    environment: process.env.NETLIFY ? "Netlify Serverless Functions" : "Node.js Local Server",
     timestamp: new Date().toISOString()
   });
 });
 
-app.get('/', (req, res) => {
-  // If browser requests HTML and client build exists, serve the React frontend
-  const distHtml = path.join(__dirname, '../client/dist/index.html');
-  if (req.accepts('html') && fs.existsSync(distHtml)) {
-    return res.sendFile(distHtml);
-  }
-  // Otherwise return JSON API status
-  res.status(200).json({
-    message: "Labour Connect API is running successfully!",
-    status: "active",
-    timestamp: new Date().toISOString()
-  });
-});
-
-
 // ------------------------------------------------------------------------------
-// 2. GET /api/workers - List all workers (sample + newly registered)
+// 2. GET /workers - List all workers (sample + newly registered)
 // ------------------------------------------------------------------------------
-app.get('/api/workers', (req, res) => {
+router.get('/workers', (req, res) => {
   res.status(200).json({
     success: true,
     count: workers.length,
@@ -222,9 +214,9 @@ app.get('/api/workers', (req, res) => {
 });
 
 // ------------------------------------------------------------------------------
-// 3. POST /api/workers - Register a new worker with strict Server-Side Validation
+// 3. POST /workers - Register a new worker with strict Server-Side Validation
 // ------------------------------------------------------------------------------
-app.post('/api/workers', (req, res) => {
+router.post('/workers', (req, res) => {
   const { name, mobile, skill, experience, location, payment, availability } = req.body;
 
   // Rule 1: Full name is required and must contain at least two characters
@@ -311,9 +303,9 @@ app.post('/api/workers', (req, res) => {
 });
 
 // ------------------------------------------------------------------------------
-// 4. GET /api/jobs - List all available jobs
+// 4. GET /jobs - List all available jobs
 // ------------------------------------------------------------------------------
-app.get('/api/jobs', (req, res) => {
+router.get('/jobs', (req, res) => {
   res.status(200).json({
     success: true,
     count: jobs.length,
@@ -322,9 +314,9 @@ app.get('/api/jobs', (req, res) => {
 });
 
 // ------------------------------------------------------------------------------
-// 5. POST /api/applications - Accept job application with Server-Side Validation
+// 5. POST /applications - Accept job application with Server-Side Validation
 // ------------------------------------------------------------------------------
-app.post('/api/applications', (req, res) => {
+router.post('/applications', (req, res) => {
   const { applicantName, mobile, jobId, applicantSkill } = req.body;
 
   // Rule 1: Applicant name is required
@@ -390,9 +382,9 @@ app.post('/api/applications', (req, res) => {
 });
 
 // ------------------------------------------------------------------------------
-// 6. POST /api/service-requests - Accept customer service request with Server-Side Validation
+// 6. POST /service-requests - Accept customer service request with Server-Side Validation
 // ------------------------------------------------------------------------------
-app.post('/api/service-requests', (req, res) => {
+router.post('/service-requests', (req, res) => {
   const { customerName, mobile, category, location, preferredDate, description } = req.body;
 
   // Rule 1: Customer name is required
@@ -487,9 +479,9 @@ app.post('/api/service-requests', (req, res) => {
 });
 
 // ------------------------------------------------------------------------------
-// 7. GET /api/service-requests - Return all service requests stored in current session
+// 7. GET /service-requests - Return all service requests stored in current session
 // ------------------------------------------------------------------------------
-app.get('/api/service-requests', (req, res) => {
+router.get('/service-requests', (req, res) => {
   res.status(200).json({
     success: true,
     count: serviceRequests.length,
@@ -498,9 +490,9 @@ app.get('/api/service-requests', (req, res) => {
 });
 
 // ------------------------------------------------------------------------------
-// 8. GET /api/applications - Return all job applications stored in current session
+// 8. GET /applications - Return all job applications stored in current session
 // ------------------------------------------------------------------------------
-app.get('/api/applications', (req, res) => {
+router.get('/applications', (req, res) => {
   res.status(200).json({
     success: true,
     count: jobApplications.length,
@@ -509,24 +501,15 @@ app.get('/api/applications', (req, res) => {
 });
 
 // ------------------------------------------------------------------------------
-// Production Static Client Serving (Single-Port Unified Deployment)
+// Mount Routes on All Prefixes
+// Ensures compatibility with:
+// 1. Local standalone server (/api/*)
+// 2. Netlify Functions (/.netlify/functions/api/*)
+// 3. Root mount (/*)
 // ------------------------------------------------------------------------------
-const path = require('path');
-const fs = require('fs');
-
-const clientDistPath = path.join(__dirname, '../client/dist');
-if (fs.existsSync(clientDistPath)) {
-  console.log(`Serving React frontend build from: ${clientDistPath}`);
-  app.use(express.static(clientDistPath));
-
-  // SPA fallback for non-API routes
-  app.get('*', (req, res, next) => {
-    if (req.path.startsWith('/api')) {
-      return next();
-    }
-    res.sendFile(path.join(clientDistPath, 'index.html'));
-  });
-}
+app.use('/api', router);
+app.use('/.netlify/functions/api', router);
+app.use('/', router);
 
 // ------------------------------------------------------------------------------
 // 404 Handler for Unknown Routes
@@ -534,7 +517,7 @@ if (fs.existsSync(clientDistPath)) {
 app.use((req, res) => {
   res.status(404).json({
     success: false,
-    error: `Cannot ${req.method} ${req.url} - Route not found on Labour Connect server.`
+    error: `Cannot ${req.method} ${req.url} - Route not found on Labour Connect Express JS server.`
   });
 });
 
@@ -545,21 +528,23 @@ app.use((err, req, res, next) => {
   console.error("Unhandled error:", err);
   res.status(500).json({
     success: false,
-    error: "Internal Server Error occurred on Labour Connect backend."
+    error: "Internal Server Error occurred on Labour Connect Express JS backend."
   });
 });
 
 // ------------------------------------------------------------------------------
-// Start Express Server
+// Export app for Netlify Serverless Functions and Testing
 // ------------------------------------------------------------------------------
-if (process.env.NODE_ENV !== 'test') {
+module.exports = app;
+
+// ------------------------------------------------------------------------------
+// Start Express Server only if executed directly
+// ------------------------------------------------------------------------------
+if (require.main === module) {
   app.listen(PORT, () => {
     console.log(`====================================================`);
-    console.log(` Labour Connect Server running on http://localhost:${PORT}`);
+    console.log(` Labour Connect Express JS Server running on http://localhost:${PORT}`);
     console.log(` Server-Side Validation Active for All POST Endpoints`);
     console.log(`====================================================`);
   });
 }
-
-module.exports = app;
-

@@ -1,13 +1,15 @@
-# Labour Connect — Skilled Worker & Service Platform
+# Labour Connect Express JS — Skilled Worker & Service Platform
 
 > **Web Technology Practical Assignment (Assignment 5)**  
 > **Topic:** Server-Side Validation using ExpressJS and RESTful API Architecture.
+> **Deployment Target:** Netlify (Static React Frontend + Netlify Serverless Functions for ExpressJS)
 
 ---
 
 ## 1. Project Title and Introduction
 
-**Labour Connect** is a responsive web-based platform built to connect skilled tradespeople (electricians, plumbers, carpenters, mechanics, painters, and appliance-repair technicians) with local households, shops, and contracting businesses.
+**Labour Connect Express JS** is a responsive web-based platform built to connect skilled tradespeople (electricians, plumbers, carpenters, mechanics, painters, and appliance-repair technicians) with local households, shops, and contracting businesses.
+
 
 The application bridges the informal labor economy with modern web technology, providing two core services:
 1. **Employment Connect:** Employers and contractors post jobs; skilled workers view verified openings and apply directly.
@@ -348,59 +350,102 @@ All test cases were verified using automated PowerShell scripts and live HTTP su
 
 ---
 
-## 14. Cloud Deployment Guide
+## 14. Netlify Deployment Guide — Labour Connect Express JS
 
-This project is pre-configured with a root `package.json`, `netlify.toml`, Netlify Functions, and `render.yaml`, supporting both **Netlify** and **Render** with zero extra setup.
+This project is configured to deploy directly to **Netlify** using:
+- **Netlify Static Hosting:** For the compiled React frontend (`client/dist`).
+- **Netlify Serverless Functions:** Powered by `serverless-http` to run the complete Express.js server and server-side validation rules in the cloud without needing a dedicated VPS.
+
+### Architecture Overview
+
+```
+                      ┌──────────────────────────────────────────────┐
+                      │              Netlify Edge CDN                │
+                      └──────────────────────┬───────────────────────┘
+                                             │
+                      ┌──────────────────────┴───────────────────────┐
+                      │                                              │
+                      ▼                                              ▼
+          Static Assets & Routes                         API Requests (/api/*)
+             (React Frontend)                           (Rewritten in netlify.toml)
+                      │                                              │
+                      ▼                                              ▼
+           Published from client/dist                   Netlify Serverless Function
+                (SPA routing)                           (netlify/functions/api.js)
+                                                                     │
+                                                                     ▼
+                                                          ExpressJS App (server/server.js)
+                                                           - Strict Server-Side Validation
+                                                           - In-Memory Data Arrays
+```
+
+### Configuration Files Already Prepared
+
+1. **`netlify.toml`**: Instructs Netlify to run `npm run build`, publish `client/dist`, bundle `netlify/functions`, and route `/api/*` to the Express serverless function.
+2. **`netlify/functions/api.js`**: Wraps the Express application using `serverless-http`.
+3. **`package.json`**: Root build scripts that install dependencies and compile the React client.
 
 ---
 
-### Option A: Deploy on Netlify (Recommended)
+### Step-by-Step Deployment Instructions
 
-Netlify serves the React frontend through its high-speed global CDN, while the ExpressJS backend runs seamlessly as a serverless function via `netlify/functions/api.js` using `serverless-http`.
+#### Method 1: Deploying via GitHub (Recommended & Easiest)
 
-#### Step 1: Push Project to GitHub
-
-1. Open your browser and go to **[GitHub New Repository](https://github.com/new)**.
-2. Name the repository `labour-connect` (choose **Public** or **Private**) and click **Create repository**.
-3. In your terminal, run the following commands:
+1. **Push your code to GitHub:**
    ```powershell
-   cd "c:\Users\ramte\OneDrive\Desktop\wt assignment\assignmnet 5"
-   git branch -M main
-   git remote add origin https://github.com/umangramteke/labour-connect.git
-   git push -u origin main
+   git add .
+   git commit -m "Configure Labour Connect Express JS for Netlify deployment"
+   git push origin main
    ```
-   *(Replace with your actual GitHub username and repository URL if different).*
 
-#### Step 2: Connect and Deploy on Netlify
+2. **Log into Netlify:**
+   - Go to [https://app.netlify.com](https://app.netlify.com) and log in with your GitHub account.
 
-1. Sign up or log in at **[app.netlify.com](https://app.netlify.com/)** (choose **Sign up with GitHub**).
-2. On your Netlify Team overview, click **Add new site** > **Import an existing project**.
-3. Select **GitHub** and authorize Netlify.
-4. Search for and select your **`labour-connect`** repository.
-5. Netlify will automatically detect the settings from `netlify.toml`:
-   - **Base directory:** *(Leave blank / root)*
+3. **Import the Project:**
+   - Click **"Add new site"** &rarr; **"Import an existing project"**.
+   - Choose **GitHub** as your Git provider.
+   - Select your repository: **`umangramteke/labour-connect`**.
+
+4. **Verify Build Settings:**
+   Netlify will automatically detect settings from `netlify.toml`:
+   - **Base directory:** *(leave blank / root)*
    - **Build command:** `npm run build`
    - **Publish directory:** `client/dist`
    - **Functions directory:** `netlify/functions`
-6. Click **Deploy labour-connect**.
 
-#### Step 3: Access Live Netlify URL
-
-- Netlify will build the client and package the Express serverless function within 30–45 seconds.
-- You will receive a permanent public HTTPS URL, for example:
-  > **`https://labour-connect.netlify.app`**
-- All frontend navigation works automatically, and all `/api/*` endpoints are rewritten to the live Express function with active server-side validation.
+5. **Deploy:**
+   - Click **"Deploy Labour Connect Express JS"**.
+   - Within 1–2 minutes, Netlify will build the client, package the Express function, and provide you with a live URL (e.g. `https://labour-connect-express-js.netlify.app`).
 
 ---
 
-### Option B: Deploy on Render (Alternative Web Service)
+#### Method 2: Deploying via Netlify CLI
 
-1. Sign in at **[render.com](https://render.com/)** with your GitHub account.
-2. Click **New +** > **Web Service**.
-3. Connect your `labour-connect` repository.
-4. Render detects `render.yaml` and auto-fills:
-   - **Build Command:** `npm run install-all && npm run build`
-   - **Start Command:** `npm start`
-5. Click **Deploy Web Service** to receive your `https://labour-connect.onrender.com` URL.
+If you prefer deploying directly from your local terminal:
 
+1. **Install Netlify CLI globally:**
+   ```powershell
+   npm install -g netlify-cli
+   ```
+
+2. **Log into Netlify:**
+   ```powershell
+   netlify login
+   ```
+
+3. **Build the production bundle:**
+   ```powershell
+   npm run build
+   ```
+
+4. **Deploy to production:**
+   ```powershell
+   netlify deploy --prod
+   ```
+   Follow the CLI prompts:
+   - Create & configure a new site: Select **Yes**.
+   - Site name: `labour-connect-express-js` (or your preferred name).
+   - Publish directory: `client/dist`.
+
+Your application will be live immediately!
 

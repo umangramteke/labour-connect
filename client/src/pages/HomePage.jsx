@@ -22,8 +22,9 @@ function HomePage({ setActiveTab, workers, jobs, onSelectJob, onHireWorker }) {
                 Connecting Skills with Opportunities
               </h1>
               <p className="hero-subtitle">
-                Labour Connect bridges the gap between daily-wage workers, skilled technicians, and people who need them. Hire certified local experts or find meaningful employment opportunities with transparent terms.
+                Labour Connect Express JS bridges the gap between daily-wage workers, skilled technicians, and people who need them. Hire certified local experts or find meaningful employment opportunities with transparent terms and strict ExpressJS server validation.
               </p>
+
               <div className="d-flex flex-wrap gap-3">
                 <button
                   className="btn btn-primary-custom btn-lg d-flex align-items-center gap-2"
@@ -89,10 +90,11 @@ function HomePage({ setActiveTab, workers, jobs, onSelectJob, onHireWorker }) {
             <span className="text-primary fw-bold text-uppercase small" style={{ letterSpacing: '0.1em' }}>
               TWO POWERFUL MODULES
             </span>
-            <h2 className="display-6 fw-bold mt-1">How Labour Connect Works</h2>
+            <h2 className="display-6 fw-bold mt-1">How Labour Connect Express JS Works</h2>
             <p className="text-muted mx-auto" style={{ maxWidth: '600px' }}>
-              Whether you are an employer seeking daily workers or a homeowner needing immediate repairs, Labour Connect has you covered.
+              Whether you are an employer seeking daily workers or a homeowner needing immediate repairs, Labour Connect Express JS has you covered.
             </p>
+
           </div>
 
           <div className="row g-4">

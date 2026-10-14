@@ -7,13 +7,11 @@
   node_bundler = "esbuild"
   included_files = ["server/**"]
 
-# Redirect all /api requests to Netlify Serverless Function
 [[redirects]]
   from = "/api/*"
   to = "/.netlify/functions/api/:splat"
   status = 200
 
-# Single Page Application (SPA) fallback to index.html for React routing
 [[redirects]]
   from = "/*"
   to = "/index.html"

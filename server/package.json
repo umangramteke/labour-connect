@@ -1,7 +1,8 @@
 {
-  "name": "labour-connect-server",
+  "name": "labour-connect-express-js-server",
   "version": "1.0.0",
-  "description": "Backend API for Labour Connect demonstrating server-side validation using ExpressJS",
+  "description": "Backend API for Labour Connect Express JS demonstrating server-side validation using ExpressJS",
+
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
