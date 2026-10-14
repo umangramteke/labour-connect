@@ -552,7 +552,7 @@ app.use((err, req, res, next) => {
 // ------------------------------------------------------------------------------
 // Start Express Server
 // ------------------------------------------------------------------------------
-if (process.env.NODE_ENV !== 'test') {
+if (require.main === module && process.env.NODE_ENV !== 'test') {
   app.listen(PORT, () => {
     console.log(`====================================================`);
     console.log(` Labour Connect Server running on http://localhost:${PORT}`);
