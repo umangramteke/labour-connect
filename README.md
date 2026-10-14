@@ -1,8 +1,10 @@
 # Labour Connect Express JS — Skilled Worker & Service Platform
 
 > **Web Technology Practical Assignment (Assignment 5)**  
-> **Topic:** Server-Side Validation using ExpressJS and RESTful API Architecture.
-> **Deployment Target:** Netlify (Static React Frontend + Netlify Serverless Functions for ExpressJS)
+> **Topic:** Server-Side Validation using ExpressJS and RESTful API Architecture.  
+> **Live Deployment:** [https://labour-connect1.netlify.app/](https://labour-connect1.netlify.app/)  
+> **GitHub Repository:** [https://github.com/umangramteke/labour-connect](https://github.com/umangramteke/labour-connect)  
+> **Deployment Target:** Netlify (Static React Frontend + Netlify Serverless Functions for ExpressJS)  
 
 ---
 
@@ -415,7 +417,9 @@ This project is configured to deploy directly to **Netlify** using:
 
 5. **Deploy:**
    - Click **"Deploy Labour Connect Express JS"**.
-   - Within 1–2 minutes, Netlify will build the client, package the Express function, and provide you with a live URL (e.g. `https://labour-connect-express-js.netlify.app`).
+   - Within 1–2 minutes, Netlify builds the client, packages the Express function, and makes the app live at:  
+     **[https://labour-connect1.netlify.app/](https://labour-connect1.netlify.app/)**
+
 
 ---
 
