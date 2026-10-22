@@ -94,14 +94,14 @@ function RequestServicePage({ preselectedWorker, onServiceSuccess }) {
         setServerFeedback({
           type: 'error',
           status: response.status,
-          message: data.error || "Server validation failed."
+          message: data.error || "Please review your details and correct any errors."
         });
       }
     } catch (err) {
       setServerFeedback({
         type: 'error',
         status: 500,
-        message: "Network Error: Unable to reach Express backend. Make sure server is running on port 5000."
+        message: "Unable to reach the server. Please check your connection and try again."
       });
     } finally {
       setIsSubmitting(false);
@@ -115,7 +115,7 @@ function RequestServicePage({ preselectedWorker, onServiceSuccess }) {
           {/* Header */}
           <div className="text-center mb-4">
             <span className="badge bg-success-subtle text-success px-3 py-1 mb-2">
-              ON-DEMAND SERVICE CONNECT
+              ON-DEMAND LOCAL SERVICE
             </span>
             <h2 className="display-6 fw-bold text-dark">Request a Skilled Service</h2>
             <p className="text-muted">
@@ -129,10 +129,10 @@ function RequestServicePage({ preselectedWorker, onServiceSuccess }) {
             <div className="d-flex align-items-center justify-content-between mb-4 pb-2 border-bottom">
               <div>
                 <h5 className="fw-bold mb-0 text-dark">Customer Service Booking</h5>
-                <small className="text-muted">Endpoint: <code>POST /api/service-requests</code></small>
+                <small className="text-muted">Doorstep service at transparent local rates</small>
               </div>
               <span className="badge bg-primary px-3 py-2">
-                <i className="bi bi-shield-check me-1"></i>Server Validated
+                <i className="bi bi-shield-check me-1"></i>Verified Service
               </span>
             </div>
 
@@ -155,10 +155,9 @@ function RequestServicePage({ preselectedWorker, onServiceSuccess }) {
                   <div className="d-flex align-items-center justify-content-between">
                     <strong>
                       {serverFeedback.type === 'success'
-                        ? `HTTP ${serverFeedback.status} Created`
-                        : `HTTP ${serverFeedback.status} Bad Request`}
+                        ? 'Service Request Received'
+                        : 'Booking Submission Error'}
                     </strong>
-                    <span className="badge bg-dark">ExpressJS Response</span>
                   </div>
                   <div className="mt-1">{serverFeedback.message}</div>
                 </div>
@@ -182,7 +181,7 @@ function RequestServicePage({ preselectedWorker, onServiceSuccess }) {
                     onChange={handleInputChange}
                     required
                   />
-                  <div className="form-help">Must not be blank.</div>
+                  <div className="form-help">Enter your primary contact name.</div>
                 </div>
 
                 {/* Mobile Number */}
@@ -201,7 +200,7 @@ function RequestServicePage({ preselectedWorker, onServiceSuccess }) {
                     maxLength={10}
                     required
                   />
-                  <div className="form-help">Exactly 10 digits required.</div>
+                  <div className="form-help">Exactly 10 digits required for technician contact.</div>
                 </div>
 
                 {/* Service Category */}
@@ -224,7 +223,7 @@ function RequestServicePage({ preselectedWorker, onServiceSuccess }) {
                       </option>
                     ))}
                   </select>
-                  <div className="form-help">Choose from predefined trades.</div>
+                  <div className="form-help">Choose the trade category you require.</div>
                 </div>
 
                 {/* Preferred Date */}
@@ -241,7 +240,7 @@ function RequestServicePage({ preselectedWorker, onServiceSuccess }) {
                     onChange={handleInputChange}
                     required
                   />
-                  <div className="form-help">Cannot be in the past (validated by server).</div>
+                  <div className="form-help">Select today or a convenient future date.</div>
                 </div>
 
                 {/* Service Location */}
@@ -259,7 +258,7 @@ function RequestServicePage({ preselectedWorker, onServiceSuccess }) {
                     onChange={handleInputChange}
                     required
                   />
-                  <div className="form-help">Full address for service technician.</div>
+                  <div className="form-help">Full address where the service is needed.</div>
                 </div>
 
                 {/* Problem Description */}
@@ -296,7 +295,7 @@ function RequestServicePage({ preselectedWorker, onServiceSuccess }) {
                   {isSubmitting ? (
                     <>
                       <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                      <span>Submitting to Express Server...</span>
+                      <span>Submitting Service Request...</span>
                     </>
                   ) : (
                     <>
@@ -310,7 +309,7 @@ function RequestServicePage({ preselectedWorker, onServiceSuccess }) {
               <div className="mt-3 text-center">
                 <small className="text-muted">
                   <i className="bi bi-info-circle me-1"></i>
-                  On submit, Express server verifies: Customer Name, 10-digit Phone, Category, Location, Non-past Date, and Description &ge; 10 chars.
+                  All service bookings are confirmed directly with our verified local technicians.
                 </small>
               </div>
             </form>

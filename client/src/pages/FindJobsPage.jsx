@@ -75,14 +75,14 @@ function FindJobsPage({ jobs, selectedJob, setSelectedJob, onApplicationSuccess 
         setServerFeedback({
           type: 'error',
           status: response.status,
-          message: data.error || "Server validation failed."
+          message: data.error || "Submission failed. Please check your information."
         });
       }
     } catch (err) {
       setServerFeedback({
         type: 'error',
         status: 500,
-        message: "Failed to connect to Express backend. Please ensure server is running."
+        message: "Failed to connect to the server. Please check your connection and try again."
       });
     } finally {
       setIsSubmitting(false);
@@ -101,10 +101,10 @@ function FindJobsPage({ jobs, selectedJob, setSelectedJob, onApplicationSuccess 
     <div className="container py-4">
       {/* Page Title */}
       <div className="mb-4">
-        <span className="text-primary fw-semibold small text-uppercase">EMPLOYMENT CONNECT</span>
+        <span className="text-primary fw-semibold small text-uppercase">CAREER OPPORTUNITIES</span>
         <h2 className="fw-bold mb-1">Available Job Opportunities</h2>
         <p className="text-muted mb-0">
-          Apply directly to local contractors and businesses. All submissions are validated by the ExpressJS backend.
+          Apply directly to local contractors and businesses. Discover employment opportunities tailored to your skills.
         </p>
       </div>
 
@@ -117,7 +117,9 @@ function FindJobsPage({ jobs, selectedJob, setSelectedJob, onApplicationSuccess 
                 <i className="bi bi-file-earmark-person-fill text-primary"></i>
                 <span>Job Application Form</span>
               </h4>
-              <span className="badge bg-secondary-subtle text-secondary small">POST /api/applications</span>
+              <span className="badge bg-primary-subtle text-primary small">
+                <i className="bi bi-send me-1"></i>Direct Apply
+              </span>
             </div>
 
             {/* Server Feedback Alert */}
@@ -136,9 +138,8 @@ function FindJobsPage({ jobs, selectedJob, setSelectedJob, onApplicationSuccess 
                 <div className="flex-grow-1">
                   <div className="d-flex align-items-center justify-content-between">
                     <strong>
-                      {serverFeedback.type === 'success' ? `HTTP ${serverFeedback.status} Created` : `HTTP ${serverFeedback.status} Bad Request`}
+                      {serverFeedback.type === 'success' ? 'Application Submitted Successfully' : 'Application Submission Error'}
                     </strong>
-                    <span className="badge bg-dark">Server-Side Validation</span>
                   </div>
                   <div className="mt-1 small">{serverFeedback.message}</div>
                 </div>
@@ -189,7 +190,7 @@ function FindJobsPage({ jobs, selectedJob, setSelectedJob, onApplicationSuccess 
                   onChange={handleInputChange}
                   required
                 />
-                <div className="form-help">Enter your name as per official identity document.</div>
+                <div className="form-help">Enter your full name as per your identity details.</div>
               </div>
 
               {/* Mobile Number */}
@@ -208,7 +209,7 @@ function FindJobsPage({ jobs, selectedJob, setSelectedJob, onApplicationSuccess 
                   maxLength={10}
                   required
                 />
-                <div className="form-help">Server validates strictly using <code>/^[0-9]&#123;10&#125;$/</code>.</div>
+                <div className="form-help">Enter a valid 10-digit mobile number for employers to contact you.</div>
               </div>
 
               {/* Applicant Skill */}
@@ -238,7 +239,7 @@ function FindJobsPage({ jobs, selectedJob, setSelectedJob, onApplicationSuccess 
                 {isSubmitting ? (
                   <>
                     <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                    <span>Validating on Server...</span>
+                    <span>Submitting Application...</span>
                   </>
                 ) : (
                   <>
@@ -249,8 +250,8 @@ function FindJobsPage({ jobs, selectedJob, setSelectedJob, onApplicationSuccess 
               </button>
 
               <div className="text-center mt-3 text-muted small">
-                <i className="bi bi-shield-lock me-1"></i>
-                Inputs are verified on the Node.js Express server before saving.
+                <i className="bi bi-shield-check me-1 text-success"></i>
+                Applications are delivered directly to the prospective employer.
               </div>
             </form>
           </div>

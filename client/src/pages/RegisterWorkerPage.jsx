@@ -84,14 +84,14 @@ function RegisterWorkerPage({ onWorkerRegistered, setActiveTab }) {
         setServerFeedback({
           type: 'error',
           status: response.status,
-          message: data.error || "Server validation failed."
+          message: data.error || "Please check your entered details and try again."
         });
       }
     } catch (err) {
       setServerFeedback({
         type: 'error',
         status: 500,
-        message: "Network Error: Could not connect to Express server."
+        message: "Network Error: Could not connect to the server. Please try again."
       });
     } finally {
       setIsSubmitting(false);
@@ -109,7 +109,7 @@ function RegisterWorkerPage({ onWorkerRegistered, setActiveTab }) {
             </span>
             <h2 className="display-6 fw-bold text-dark">Register as a Skilled Worker</h2>
             <p className="text-muted">
-              Join Labour Connect to find clients and employment. Your details are validated by our ExpressJS server.
+              Join Labour Connect to find clients and discover employment opportunities in your locality.
             </p>
           </div>
 
@@ -117,10 +117,10 @@ function RegisterWorkerPage({ onWorkerRegistered, setActiveTab }) {
             <div className="d-flex align-items-center justify-content-between mb-4 pb-2 border-bottom">
               <div>
                 <h5 className="fw-bold mb-0 text-dark">Worker Registration Details</h5>
-                <small className="text-muted">Route: <code>POST /api/workers</code></small>
+                <small className="text-muted">Get listed in the verified worker directory</small>
               </div>
               <span className="badge bg-primary px-3 py-2">
-                <i className="bi bi-shield-check me-1"></i>Server Validated
+                <i className="bi bi-person-check-fill me-1"></i>Direct Onboarding
               </span>
             </div>
 
@@ -143,10 +143,9 @@ function RegisterWorkerPage({ onWorkerRegistered, setActiveTab }) {
                   <div className="d-flex align-items-center justify-content-between">
                     <strong>
                       {serverFeedback.type === 'success'
-                        ? `HTTP ${serverFeedback.status} Created`
-                        : `HTTP ${serverFeedback.status} Bad Request`}
+                        ? 'Profile Registered Successfully'
+                        : 'Registration Details Error'}
                     </strong>
-                    <span className="badge bg-dark">Server Feedback</span>
                   </div>
                   <div className="mt-1">{serverFeedback.message}</div>
                   {serverFeedback.type === 'success' && (
@@ -200,7 +199,7 @@ function RegisterWorkerPage({ onWorkerRegistered, setActiveTab }) {
                     maxLength={10}
                     required
                   />
-                  <div className="form-help">Must be exactly 10 digits.</div>
+                  <div className="form-help">Must be exactly 10 digits for contact.</div>
                 </div>
 
                 {/* Skill / Profession */}
@@ -222,7 +221,7 @@ function RegisterWorkerPage({ onWorkerRegistered, setActiveTab }) {
                       </option>
                     ))}
                   </select>
-                  <div className="form-help">Your primary trade.</div>
+                  <div className="form-help">Select your core trade.</div>
                 </div>
 
                 {/* Experience in Years */}
@@ -242,7 +241,7 @@ function RegisterWorkerPage({ onWorkerRegistered, setActiveTab }) {
                     onChange={handleInputChange}
                     required
                   />
-                  <div className="form-help">Must be a number &ge; 0.</div>
+                  <div className="form-help">Years of working experience in this skill.</div>
                 </div>
 
                 {/* Location */}
@@ -260,7 +259,7 @@ function RegisterWorkerPage({ onWorkerRegistered, setActiveTab }) {
                     onChange={handleInputChange}
                     required
                   />
-                  <div className="form-help">Area or city where you operate.</div>
+                  <div className="form-help">Area or city where you provide services.</div>
                 </div>
 
                 {/* Expected Payment */}
@@ -279,7 +278,7 @@ function RegisterWorkerPage({ onWorkerRegistered, setActiveTab }) {
                     onChange={handleInputChange}
                     required
                   />
-                  <div className="form-help">Must be a valid positive number.</div>
+                  <div className="form-help">Your standard daily wage rate in Rupees.</div>
                 </div>
 
                 {/* Availability */}
@@ -315,7 +314,7 @@ function RegisterWorkerPage({ onWorkerRegistered, setActiveTab }) {
                   {isSubmitting ? (
                     <>
                       <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                      <span>Submitting to Express Server...</span>
+                      <span>Registering Profile...</span>
                     </>
                   ) : (
                     <>
@@ -329,7 +328,7 @@ function RegisterWorkerPage({ onWorkerRegistered, setActiveTab }) {
               <div className="mt-3 text-center">
                 <small className="text-muted">
                   <i className="bi bi-info-circle me-1"></i>
-                  Upon successful registration (HTTP 201), the worker immediately appears in the Find Workers directory!
+                  Upon successful registration, your profile will immediately appear in the Find Workers directory.
                 </small>
               </div>
             </form>
