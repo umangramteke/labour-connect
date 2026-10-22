@@ -1,4 +1,4 @@
-# Labour Connect Express JS — Skilled Worker & Service Platform
+# Labour Connect — Skilled Worker & Service Platform
 
 > **Web Technology Practical Assignment (Assignment 5)**  
 > **Topic:** Server-Side Validation using ExpressJS and RESTful API Architecture.  
@@ -10,7 +10,7 @@
 
 ## 1. Project Title and Introduction
 
-**Labour Connect Express JS** is a responsive web-based platform built to connect skilled tradespeople (electricians, plumbers, carpenters, mechanics, painters, and appliance-repair technicians) with local households, shops, and contracting businesses.
+**Labour Connect** is a responsive web-based platform built to connect skilled tradespeople (electricians, plumbers, carpenters, mechanics, painters, and appliance-repair technicians) with local households, shops, and contracting businesses.
 
 
 The application bridges the informal labor economy with modern web technology, providing two core services:
